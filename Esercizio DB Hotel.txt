@@ -22,7 +22,7 @@ Soluzione:
 ---
 SELECT *
 FROM ospiti
-WHERE 2020 - YEAR(date_of_birth) > 20
+WHERE YEAR(NOW()) - YEAR(date_of_birth) > 20
 ---
     • Seleziona tutti gli ospiti il cui nome inizia con la D.
 Soluzione:
