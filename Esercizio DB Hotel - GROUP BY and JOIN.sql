@@ -34,7 +34,7 @@ GROUP BY HOUR(created_at)
 ---
 
 JOIN
-    -- • Come si chiamano gli ospiti che hanno fatto più di due prenotazioni? (TRALASCIARE)
+    -- • Come si chiamano gli ospiti che hanno fatto più di due prenotazioni? (HAVING, da vedere lunedì a lezione)
 Soluzione:
 ---
 
@@ -69,15 +69,37 @@ WHERE YEAR(prenotazioni.created_at) = 2018 AND MONTH(prenotazioni.created_at) = 
     -- • Fai la somma di tutti i prezzi delle prenotazioni per le stanze del primo piano.
 Soluzione:
 ---
-
+SELECT  SUM(pagamenti.price)
+FROM prenotazioni_has_ospiti
+LEFT JOIN prenotazioni
+ON prenotazioni_has_ospiti.prenotazione_id = prenotazioni.id
+LEFT JOIN pagamenti
+ON pagamenti.prenotazione_id = prenotazioni.id
+LEFT JOIN stanze
+ON prenotazioni.stanza_id = stanze.id
+WHERE stanze.floor = 1
 ---
     -- • Prendi i dati di fatturazione per la prenotazione con id=7.
 Soluzione:
 ---
-
+SELECT  paganti.name, paganti.lastname, paganti.address
+FROM prenotazioni_has_ospiti
+LEFT JOIN prenotazioni
+ON prenotazioni_has_ospiti.prenotazione_id = prenotazioni.id
+LEFT JOIN ospiti
+ON prenotazioni_has_ospiti.ospite_id = ospiti.id
+LEFT JOIN paganti
+ON paganti.ospite_id = ospiti.id
+LEFT JOIN pagamenti
+ON pagamenti.pagante_id = paganti.id
+WHERE prenotazioni_has_ospiti.prenotazione_id = 7
 ---
     -- • Le stanze sono state tutte prenotate almeno una volta? (Visualizzare le stanze non ancora prenotate).
 Soluzione:
 ---
-
+SELECT stanze.id, stanze.room_number
+FROM prenotazioni
+RIGHT JOIN stanze
+ON prenotazioni.stanza_id = stanze.id
+WHERE stanza_id IS NULL
 ---
