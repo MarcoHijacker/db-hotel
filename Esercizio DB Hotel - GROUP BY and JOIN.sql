@@ -37,6 +37,12 @@ JOIN
     -- • Come si chiamano gli ospiti che hanno fatto più di due prenotazioni? (HAVING, da vedere lunedì a lezione)
 Soluzione:
 ---
+SELECT ospiti.name, ospiti.lastname, COUNT(ospiti.id) AS '# NUMERO Prenotazioni'
+FROM prenotazioni_has_ospiti
+JOIN ospiti
+ON prenotazioni_has_ospiti.ospite_id = ospiti.id
+GROUP BY prenotazioni_has_ospiti.ospite_id
+HAVING COUNT(ospiti.id) > 2
 
 ---
     -- • Stampare tutti gli ospiti per ogni prenotazione.
